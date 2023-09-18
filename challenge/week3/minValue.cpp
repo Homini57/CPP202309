@@ -15,7 +15,7 @@ int main()
 		lowest = b;
 	else
 		lowest = c;// 나머지 경우는 c가 가장 작은 경우이므로 c가 lowest에 저장된다.
-	cout << "가장 큰 정수는" << lowest << endl; //lowest를 출력받는다.
+	cout << "가장 작은 정수는" << lowest << endl; //lowest를 출력받는다.
 	return 0;
 
 }
