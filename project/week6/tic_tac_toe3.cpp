@@ -2,7 +2,7 @@
 using namespace std;
 
 int main() {
-	
+
 	const int numCell = 3;
 	char board[numCell][numCell]{};// 보드 크기 : 3 x 3
 	int x, y;// x : 입력받은 행 좌표, y : 입력받은 열 좌표 저장 변수
@@ -13,19 +13,23 @@ int main() {
 		}
 	}
 	// 틱택토 코드
-	
+
 	int k = 0; // 현재 턴 플레이어 구분을 위한 변수
 	char currentUser = 'X'; // 현재 플레이어 돌 모양을 저장하기 위한 변수
 	while (true) {
 		// 1. 현재 턴 플레이어 출력, 플레이어 돌 모양 저장
-		switch (k % 2) {
+		switch (k % 3) {
 		case 0:
-			cout << k % 2 + 1 << "번 유저(X)의 차례입니다 -> ";
+			cout << k % 3 + 1 << "번 유저(X)의 차례입니다 -> ";
 			currentUser = 'X';
 			break;
 		case 1:
-			cout << k % 2 + 1 << "번 유저(O)의 차례입니다 -> ";
+			cout << k % 3 + 1 << "번 유저(O)의 차례입니다 -> ";
 			currentUser = 'O';
+			break;
+		case 2:
+			cout << k % 3 + 1 << "번 유저(Y)의 차례입니다 -> ";
+			currentUser = 'Y';
 			break;
 		}
 
@@ -117,20 +121,19 @@ int main() {
 			else
 				break;
 		}
-		// 10. 승리자 이름 출력
+
 		if (win == true) {
-			cout << k % 2 + 1 << "번 유저(" << currentUser << ")의 승리입니다!" << endl;
+			cout << k % 3 + 1 << "번 유저(" << currentUser << ")의 승리입니다!" << endl;
 			cout << "종료합니다" << endl;
 			break;
 		}
 
 		k++;
-		// 11. 칸이 모두 찼을 때 종료 출력
 		if (k >= 9) {
 			cout << "모든 칸이 다 찼습니다. 종료합니다";
 			break;
 		}
-		
+
 	}
 	return 0;
 
