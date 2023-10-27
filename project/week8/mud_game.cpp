@@ -2,11 +2,11 @@
 #include <string>
 using namespace std;
 
-const int mapX = 5;
-const int mapY = 5;
-int user_hp = 20;
+const int mapX = 5;		// 지도의 칸(열) 수
+const int mapY = 5;		// 지도의 줄(행) 수
+int user_hp = 20;		// 말의 현재 체력
 // 사용자 정의 함수
-bool moveNcheckXY(int& user_x, int mapX, int& user_y, int mapY, int movement_x, int movement_y);
+bool checkNmoveXY(int& user_x, int mapX, int& user_y, int mapY, int movement_x, int movement_y);
 void displayMap(int map[][mapX], int user_x, int user_y);
 bool checkGoal(int map[][mapX], int user_x, int user_y);
 bool checkState(int map[][mapX], int user_x, int user_y);
@@ -36,40 +36,46 @@ int main() {
 
 		if (user_input == "상") {
 			// 위로 한 칸 올라가기
-			bool inMap = moveNcheckXY(user_x, mapX, user_y, mapY, 0, -1);
+			bool inMap = checkNmoveXY(user_x, mapX, user_y, mapY, 0, -1);
 			if (inMap == true) {
 				cout << "위로 한 칸 올라갑니다." << endl;
 				displayMap(map, user_x, user_y);
 			}
-
+			else
+				continue;
 		}
 		else if (user_input == "하") {
-			// TODO: 아래로 한 칸 내려가기
-			bool inMap = moveNcheckXY(user_x, mapX, user_y, mapY, 0, 1);
+			// 아래로 한 칸 내려가기
+			bool inMap = checkNmoveXY(user_x, mapX, user_y, mapY, 0, 1);
 			if (inMap == true) {
 				cout << "위로 한 칸 내려갑니다." << endl;
 				displayMap(map, user_x, user_y);
 			}
-
+			else
+				continue;
 		}
 		else if (user_input == "좌") {
-			// TODO: 왼쪽으로 이동하기
-			bool inMap = moveNcheckXY(user_x, mapX, user_y, mapY, -1, 0);
+			// 왼쪽으로 이동하기
+			bool inMap = checkNmoveXY(user_x, mapX, user_y, mapY, -1, 0);
 			if (inMap == true) {
 				cout << "왼쪽으로 이동합니다." << endl;
 				displayMap(map, user_x, user_y);
 			}
+			else
+				continue;
 		}
 		else if (user_input == "우") {
-			// TODO: 오른쪽으로 이동하기
-			bool inMap = moveNcheckXY(user_x, mapX, user_y, mapY, 1, 0);
+			// 오른쪽으로 이동하기
+			bool inMap = checkNmoveXY(user_x, mapX, user_y, mapY, 1, 0);
 			if (inMap == true) {
 				cout << "오른쪽으로 이동합니다." << endl;
 				displayMap(map, user_x, user_y);
 			}
+			else
+				continue;
 		}
 		else if (user_input == "지도") {
-			// TODO: 지도 보여주기 함수 호출
+			// 지도 출력 함수 호출
 			displayMap(map, user_x, user_y);
 		}
 		else if (user_input == "종료") {
@@ -81,14 +87,14 @@ int main() {
 			continue;
 		}
 
-		// 목적지에 도달했는지 체크
+		// 목적지에 도달할 경우 종료
 		bool finish = checkGoal(map, user_x, user_y);
 		if (finish == true) {
 			cout << "목적지에 도착했습니다! 축하합니다!" << endl;
 			cout << "게임을 종료합니다." << endl;
 			break;
 		}
-
+		// 특이사항(hp 변동) 발생 여부 체크, hp가 0이 되면 종료
 		if (checkState(map, user_x, user_y) == false) {
 			break;
 		}
@@ -131,7 +137,7 @@ void displayMap(int map[][mapX], int user_x, int user_y) {
 }
 
 // 이동하려는 곳이 유효한 좌표인지 체크하는 함수
-bool moveNcheckXY(int& user_x, int mapX, int& user_y, int mapY, int movement_x, int movement_y) {
+bool checkNmoveXY(int& user_x, int mapX, int& user_y, int mapY, int movement_x, int movement_y) {
 	bool checkFlag = false;
 	user_x += movement_x;
 	user_y += movement_y;
@@ -140,7 +146,7 @@ bool moveNcheckXY(int& user_x, int mapX, int& user_y, int mapY, int movement_x, 
 		user_hp -= 1;
 	}
 	else {
-		cout << "맵을 벗어났습니다. 다시 돌아갑니다." << endl;
+		cout << "맵을 벗어났습니다. 다시 돌아갑니다.\n" << endl;
 		user_x -= movement_x;
 		user_y -= movement_y;
 	}
@@ -158,14 +164,14 @@ bool checkGoal(int map[][mapX], int user_x, int user_y) {
 
 bool checkState(int map[][mapX], int user_x, int user_y) {
 	if (map[user_y][user_x] == 1) {
-		cout << "아이템이 있습니다." << endl;
+		cout << "아이템이 있습니다.\n" << endl;
 	}
 	else if (map[user_y][user_x] == 2) {
-		cout << "적이 있습니다. HP가 2 줄어듭니다." << endl;
+		cout << "적이 있습니다. HP가 2 줄어듭니다.\n" << endl;
 		user_hp -= 2;
 	}
 	else if (map[user_y][user_x] == 3) {
-		cout << "포션이 있습니다. HP가 2 늘어납니다." << endl;
+		cout << "포션이 있습니다. HP가 2 늘어납니다.\n" << endl;
 		user_hp += 2;
 	}
 
