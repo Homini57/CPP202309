@@ -8,7 +8,8 @@ User my_user;
 bool checkNmoveXY(int& user_x, int& user_y, int movement_x, int movement_y);
 void displayMap(int map[][mapX], int user_x, int user_y);
 bool checkGoal(int map[][mapX], int user_x, int user_y);
-bool checkState(int map[][mapX], int user_x, int user_y);
+void checkState(int map[][mapX], int user_x, int user_y);
+bool CheckUser(User user);
 
 // 메인  함수
 int main() {
@@ -23,8 +24,6 @@ int main() {
 	// 유저의 위치를 저장할 변수
 	int user_x = 0; // 가로 번호
 	int user_y = 0; // 세로 번호
-	my_user.hp = 20;// 말의 현재 체력
-	
 
 	// 게임 시작 
 	while (1) { // 사용자에게 계속 입력받기 위해 무한 루프
@@ -96,9 +95,13 @@ int main() {
 			break;
 		}
 		// 특이사항(hp 변동) 발생 여부 체크, hp가 0이 되면 종료
-		if (checkState(map, user_x, user_y) == false) {
+		checkState(map, user_x, user_y);
+
+		if (!CheckUser(my_user)) {
+			cout << "HP가 0 이하가 되었습니다.실패했습니다.\n게임을 종료합니다.";
 			break;
 		}
+		
 	}
 	return 0;
 }
@@ -133,7 +136,7 @@ void displayMap(int map[][mapX], int user_x, int user_y) {
 			}
 		}
 		cout << endl;
-		cout << " -------------------------------- " << endl;
+		cout << " ---------------------------------- " << endl;
 	}
 }
 
@@ -163,7 +166,7 @@ bool checkGoal(int map[][mapX], int user_x, int user_y) {
 	return false;
 }
 // 아이템, 적, 포션을 만났을 때 hp변동 및 상태 출력
-bool checkState(int map[][mapX], int user_x, int user_y) {
+void checkState(int map[][mapX], int user_x, int user_y) {
 	if (map[user_y][user_x] == 1) {
 		cout << "아이템이 있습니다.\n" << endl;
 	}
@@ -173,12 +176,16 @@ bool checkState(int map[][mapX], int user_x, int user_y) {
 	}
 	else if (map[user_y][user_x] == 3) {
 		cout << "포션이 있습니다. HP가 2 늘어납니다.\n" << endl;
-		my_user.hp += 2;
+		my_user.IncreaseHP(2);
+	}
+}
+// 유저 hp가 0이하가 되었는지 체크
+bool CheckUser(User user) {
+	bool is_live = true;
+	int user_HP = user.GetHP();
+	if (user_HP <= 0) {
+		is_live = false;
 	}
 
-	if (my_user.GetHP() <= 0) {
-		cout << "HP가 0 이하가 되었습니다.실패했습니다.\n게임을 종료합니다.";
-		return false;
-	}
-	return true;
+	return is_live;
 }
