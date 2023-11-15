@@ -3,6 +3,7 @@
 #include <string>
 using namespace std;
 // 유저 hp에 대한 클래스
+
 class User {
 private:
 	int hp;
